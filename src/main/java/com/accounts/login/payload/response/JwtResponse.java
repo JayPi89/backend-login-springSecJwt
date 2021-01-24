@@ -1,6 +1,8 @@
 package com.accounts.login.payload.response;
 
 
+import com.accounts.login.models.Skill;
+
 import java.util.List;
 
 public class JwtResponse {
@@ -10,13 +12,15 @@ public class JwtResponse {
 	private String username;
 	private String email;
 	private List<String> roles;
+	private List<Skill> skills;
 
-	public JwtResponse(String accessToken, Long id, String username, String email, List<String> roles) {
+	public JwtResponse(String accessToken, Long id, String username, String email, List<String> roles, List<Skill> skills) {
 		this.token = accessToken;
 		this.id = id;
 		this.username = username;
 		this.email = email;
 		this.roles = roles;
+		this.skills = skills;
 	}
 
 	public String getAccessToken() {

@@ -1,7 +1,13 @@
 package com.accounts.login.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -37,6 +43,11 @@ public class User {
 				joinColumns = @JoinColumn(name = "user_id"), 
 				inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
+
+	@JsonManagedReference
+	@OneToMany(cascade = CascadeType.ALL)
+	@JsonIgnore
+	private List<Skill> skills = new ArrayList<>();
 
 	public User() {
 	}
@@ -85,5 +96,23 @@ public class User {
 
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+
+	public List<Skill> getSkills() {
+		return skills;
+	}
+
+	public void setSkills(List<Skill> roles) {
+		this.skills = skills;
+	}
+
+	public void addSkill(Skill skill) {
+		skill.setUser(this);
+		skills.add(skill);
+	}
+	public void removeSkill(Long id) {
+		skills = skills.stream()
+				.filter(car -> !car.getId().equals(id))
+				.collect(Collectors.toList());
 	}
 }
